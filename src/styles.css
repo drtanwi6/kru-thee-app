@@ -1,0 +1,159 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "IBM Plex Sans Thai", "IBM Plex Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Fraunces", "IBM Plex Sans Thai", ui-serif, Georgia, serif;
+
+  --color-bg: #f3ebdd;
+  --color-bg-deep: #e6d9c4;
+  --color-surface: #fffaf3;
+  --color-fg: #1a1f2b;
+  --color-muted: #6e655b;
+  --color-line: #e0d3bf;
+  --color-lacquer: #c2412d;
+  --color-on-lacquer: #fff7f2;
+  --color-gold: #c9891a;
+  --color-on-gold: #2a1c06;
+  --color-celadon: #2f6b5a;
+  --color-on-celadon: #f3faf6;
+
+  --shadow-card: 0 1px 0 color-mix(in oklab, var(--color-fg) 5%, transparent),
+    0 18px 40px -28px color-mix(in oklab, var(--color-fg) 45%, transparent);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: var(--color-bg);
+    color: var(--color-fg);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    line-height: 1.5;
+    min-height: 100dvh;
+    background:
+      radial-gradient(1200px 420px at 8% -10%, color-mix(in oklab, var(--color-gold) 18%, transparent), transparent 60%),
+      var(--color-bg);
+  }
+
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    text-wrap: balance;
+    letter-spacing: -0.02em;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: color-mix(in oklab, var(--color-gold) 42%, white);
+    color: var(--color-fg);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-lacquer);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  .card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-line);
+    border-radius: 1.5rem;
+    box-shadow: var(--shadow-card);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    padding: 0.55rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    font-weight: 600;
+    line-height: 1.2;
+    transition: background-color 160ms ease, transform 160ms ease, border-color 160ms ease;
+  }
+
+  .btn:active:not(:disabled) {
+    transform: translateY(1px);
+  }
+
+  .btn:disabled {
+    opacity: 0.45;
+  }
+
+  .btn-primary {
+    background: var(--color-lacquer);
+    color: var(--color-on-lacquer);
+  }
+
+  .btn-primary:hover:not(:disabled) {
+    background: color-mix(in oklab, var(--color-lacquer) 86%, black);
+  }
+
+  .btn-celadon {
+    background: var(--color-celadon);
+    color: var(--color-on-celadon);
+  }
+
+  .btn-celadon:hover:not(:disabled) {
+    background: color-mix(in oklab, var(--color-celadon) 86%, black);
+  }
+
+  .btn-ghost {
+    background: transparent;
+    color: var(--color-fg);
+    border-color: var(--color-line);
+  }
+
+  .btn-ghost:hover:not(:disabled) {
+    background: color-mix(in oklab, var(--color-bg-deep) 70%, transparent);
+  }
+
+  .btn-gold {
+    background: var(--color-gold);
+    color: var(--color-on-gold);
+  }
+
+  .dock {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+@keyframes kru-pulse {
+  0% {
+    box-shadow: 0 0 0 0 color-mix(in oklab, var(--color-lacquer) 40%, transparent);
+  }
+  100% {
+    box-shadow: 0 0 0 14px transparent;
+  }
+}
+
+.listening {
+  animation: kru-pulse 1.15s ease-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .listening {
+    animation: none;
+  }
+
+  .btn,
+  .motion {
+    transition: none;
+  }
+}
