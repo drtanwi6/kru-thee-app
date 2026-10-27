@@ -157,7 +157,36 @@ export function renderInstallPageHtml(template, { host, url } = {}) {
     .replaceAll("{{APP_URL}}", escapeHtml(stripInstallParams(url)));
 }
 
-export function renderWebManifest(hostHeader) {
+export function renderWebManifest() {
+  return JSON.stringify(
+    {
+      name: "Kru Thee: English for Thai",
+      short_name: "Kru Thee",
+      description: "Short English classes, daily review and speaking practice, with Thai help.",
+      lang: "en",
+      id: "/",
+      start_url: "/",
+      scope: "/",
+      display: "standalone",
+      orientation: "portrait",
+      background_color: "#F3EBDD",
+      theme_color: "#F3EBDD",
+      categories: ["education"],
+      icons: [
+        { src: "/images/icon-192.png", sizes: "192x192", type: "image/png", purpose: "any" },
+        { src: "/images/icon-512.png", sizes: "512x512", type: "image/png", purpose: "any" },
+        { src: "/images/icon-maskable-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" },
+      ],
+      screenshots: [
+        { src: "/images/shot-home.png", sizes: "780x1560", type: "image/png", form_factor: "narrow", label: "Home with daily goal" },
+        { src: "/images/shot-lesson.png", sizes: "780x1560", type: "image/png", form_factor: "narrow", label: "A short class" },
+        { src: "/images/shot-mistakes.png", sizes: "780x1560", type: "image/png", form_factor: "narrow", label: "Fix my mistakes" },
+      ],
+    },
+    null,
+    2,
+  );
+}export function renderWebManifestold(hostHeader) {
   const name = appNameFromHost(hostHeader);
   return JSON.stringify(
     {
