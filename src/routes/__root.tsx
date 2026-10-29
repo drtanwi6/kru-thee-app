@@ -16,7 +16,9 @@ export const Route = createRootRoute({
         name: "description",
         content: "Kru Thee is a calm English class for Thai speakers. Lessons, review, and speaking practice.",
       },
-      { name: "theme-color", content: "#F3EBDD" },
+      { name: "theme-color", content: "#F5F0E8" },
+      { name: "apple-mobile-web-app-title", content: APP_NAME },
+      { name: "referrer", content: "strict-origin-when-cross-origin" },
     ],
     links: [
       { rel: "icon", type: "image/svg+xml", href: "/favicon.svg" },
@@ -27,8 +29,8 @@ export const Route = createRootRoute({
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,560;9..144,650&family=IBM+Plex+Sans+Thai:wght@400;500;600&display=swap",
       },
-      { rel: "manifest", href: "/__grok/manifest.webmanifest" },
-      { rel: "apple-touch-icon", href: "/__grok/icon-180.png" },
+      { rel: "manifest", href: "/manifest.webmanifest" },
+      { rel: "apple-touch-icon", href: "/icons/icon-192.png", sizes: "192x192" },
     ],
   }),
   component: () => (
@@ -44,6 +46,12 @@ export const Route = createRootRoute({
           </AppShell>
         </AuthProvider>
         <Scripts />
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              '(function(){if(!("serviceWorker" in navigator))return;function register(){navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(function(){});}if(document.readyState==="complete")register();else window.addEventListener("load",register);})();',
+          }}
+        />
       </body>
     </html>
   ),
