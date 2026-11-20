@@ -16,6 +16,7 @@ import { Route as MistakesRouteImport } from './routes/mistakes'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as ReviewRouteImport } from './routes/review'
 import { Route as SpeakRouteImport } from './routes/speak'
+import { Route as ThisWeekRouteImport } from './routes/this-week'
 import { Route as LessonLessonIdRouteImport } from './routes/lesson.$lessonId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -53,6 +54,11 @@ const SpeakRoute = SpeakRouteImport.update({
   path: '/speak',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ThisWeekRoute = ThisWeekRouteImport.update({
+  id: '/this-week',
+  path: '/this-week',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LessonLessonIdRoute = LessonLessonIdRouteImport.update({
   id: '/lesson/$lessonId',
   path: '/lesson/$lessonId',
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/privacy': typeof PrivacyRoute
   '/review': typeof ReviewRoute
   '/speak': typeof SpeakRoute
+  '/this-week': typeof ThisWeekRoute
   '/lesson/$lessonId': typeof LessonLessonIdRoute
 }
 export interface FileRoutesByTo {
@@ -77,6 +84,7 @@ export interface FileRoutesByTo {
   '/privacy': typeof PrivacyRoute
   '/review': typeof ReviewRoute
   '/speak': typeof SpeakRoute
+  '/this-week': typeof ThisWeekRoute
   '/lesson/$lessonId': typeof LessonLessonIdRoute
 }
 export interface FileRoutesById {
@@ -88,6 +96,7 @@ export interface FileRoutesById {
   '/privacy': typeof PrivacyRoute
   '/review': typeof ReviewRoute
   '/speak': typeof SpeakRoute
+  '/this-week': typeof ThisWeekRoute
   '/lesson/$lessonId': typeof LessonLessonIdRoute
 }
 export interface FileRouteTypes {
@@ -100,6 +109,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/review'
     | '/speak'
+    | '/this-week'
     | '/lesson/$lessonId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -110,6 +120,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/review'
     | '/speak'
+    | '/this-week'
     | '/lesson/$lessonId'
   id:
     | '__root__'
@@ -120,6 +131,7 @@ export interface FileRouteTypes {
     | '/privacy'
     | '/review'
     | '/speak'
+    | '/this-week'
     | '/lesson/$lessonId'
   fileRoutesById: FileRoutesById
 }
@@ -131,6 +143,7 @@ export interface RootRouteChildren {
   PrivacyRoute: typeof PrivacyRoute
   ReviewRoute: typeof ReviewRoute
   SpeakRoute: typeof SpeakRoute
+  ThisWeekRoute: typeof ThisWeekRoute
   LessonLessonIdRoute: typeof LessonLessonIdRoute
 }
 
@@ -185,6 +198,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SpeakRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/this-week': {
+      id: '/this-week'
+      path: '/this-week'
+      fullPath: '/this-week'
+      preLoaderRoute: typeof ThisWeekRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/lesson/$lessonId': {
       id: '/lesson/$lessonId'
       path: '/lesson/$lessonId'
@@ -203,6 +223,7 @@ const rootRouteChildren: RootRouteChildren = {
   PrivacyRoute: PrivacyRoute,
   ReviewRoute: ReviewRoute,
   SpeakRoute: SpeakRoute,
+  ThisWeekRoute: ThisWeekRoute,
   LessonLessonIdRoute: LessonLessonIdRoute,
 }
 export const routeTree = rootRouteImport

@@ -46,7 +46,7 @@ export const Route = createRootRoute({
             <Outlet />
           </AppShell>
         </AuthProvider>
-                <Analytics />
+        <Analytics />
         <Scripts />
         <script
           dangerouslySetInnerHTML={{
@@ -54,7 +54,6 @@ export const Route = createRootRoute({
               '(function(){if(!("serviceWorker" in navigator))return;function register(){navigator.serviceWorker.register("/sw.js",{scope:"/"}).catch(function(){});}if(document.readyState==="complete")register();else window.addEventListener("load",register);})();',
           }}
         />
-      <Analytics />
       </body>
     </html>
   ),
