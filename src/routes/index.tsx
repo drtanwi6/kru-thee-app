@@ -188,7 +188,7 @@ function Home() {
 
       <section aria-label="Weekly English lessons">
         <a
-          href="/this-week.html"
+          href="/this-week"
           aria-label="Open this week's English lessons"
           className="card flex min-h-24 flex-col justify-center gap-1 px-4 py-3 transition-colors hover:bg-bg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lacquer"
         >
