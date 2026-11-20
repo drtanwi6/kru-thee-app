@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kru Thee · This Week</title>
+<style>
+:root{--bg:#fff8ee;--card:#fff;--ink:#1f2a44;--mute:#68718a;--line:#eadfc9;--brand:#d9480f;--ok:#16a06a;--bad:#e03e45;--soft:#fff0dc;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#121828;--card:#1c2440;--ink:#f1f3fa;--mute:#9ba5c2;--line:#2d3760;--soft:#27304f;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 system-ui,-apple-system,"Segoe UI",sans-serif;padding:env(safe-area-inset-top,0px) 0 env(safe-area-inset-bottom,0px)}
+#app{max-width:560px;margin:0 auto;padding:14px}
+h1{font-size:22px;margin:0}h2{font-size:18px;margin:0 0 4px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.mute{color:var(--mute);font-size:14px;margin:6px 0}
+.th{display:none;color:var(--mute);font-size:14px;font-weight:400}body.th .th{display:block}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:14px;margin:10px 0}
+.les{display:block;width:100%;text-align:left;color:inherit;font:inherit;cursor:pointer}
+.big{font-size:30px}
+.btn{display:block;width:100%;background:var(--brand);color:#fff;border:0;border-radius:12px;padding:12px 16px;font:inherit;font-weight:600;cursor:pointer;margin-top:10px}
+.btn.g{background:var(--soft);color:var(--ink)}
+.chip{background:var(--soft);border:0;border-radius:999px;padding:6px 12px;font:inherit;font-size:14px;color:var(--ink);cursor:pointer}
+.tabs{display:flex;gap:6px;margin:10px 0}
+.tabs button{flex:1;padding:10px 4px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;font:inherit;font-weight:600;cursor:pointer}
+.tabs .on{background:var(--brand);border-color:var(--brand);color:#fff}
+.opt{display:block;width:100%;text-align:left;margin:8px 0;padding:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:12px;font:inherit;cursor:pointer}
+.opt.ok{border-color:var(--ok);background:rgba(22,160,106,.18)}
+.opt.no{border-color:var(--bad);background:rgba(224,62,69,.18)}
+.bar{height:10px;background:var(--line);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:var(--brand);transition:width .3s}
+.ex{display:flex;align-items:center;gap:8px;padding:6px 0;border-top:1px dashed var(--line)}
+.ex span{flex:1}
+.bad{color:var(--bad);font-size:14px;margin-top:6px}
+.fb{margin-top:8px;padding:10px;border-radius:12px;background:var(--soft)}
+label{display:flex;gap:10px;align-items:center;cursor:pointer}
+input[type=checkbox]{width:22px;height:22px;accent-color:var(--brand)}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<script>
+const D=[
+{id:'dd',e:'❓',t:'Do, Does & Did',th:'ถามคำถามด้วย Do / Does / Did',
+learn:[
+['Do → I / you / we / they','ใช้ Do กับ I, you, we, they',['Do you like coffee?','Do they live here?']],
+['Does → he / she / it','ใช้ Does กับ he, she, it (กริยาไม่เติม s)',['Does she work here?','Does Dee speak Thai?'],'✗ Does she works here?  ✓ Does she work here?'],
+['Did → the past (all subjects)','ใช้ Did ถามเรื่องที่ผ่านมาแล้ว',['Did you eat breakfast?','Did he call you?'],'✗ Did you ate?  ✓ Did you eat?'],
+['Short answers','ตอบสั้น ๆ',['Yes, I do. / No, I don’t.','Yes, she does. / No, she doesn’t.','Yes, I did. / No, I didn’t.']]],
+say:['Do you like English?','Does your friend like music?','Did you eat breakfast today?'],
+own:'Your turn: ask a friend two questions, one with Do and one with Did.',
+can:'I can ask yes/no questions with do, does and did.',
+q:[
+['___ you speak English?',['Do','Does','Did'],0,'you → Do.'],
+['___ she work here?',['Do','Does','Did'],1,'she → Does.'],
+['___ they go to school yesterday?',['Do','Does','Did'],2,'“Yesterday” means the past → Did.'],
+['Does he ___ pizza?',['like','likes','liked'],0,'After Does, use the base verb: like.'],
+['Did you call Mom? — Yes, I ___.',['do','did','does'],1,'A Did question gets a did answer.']]},
+{id:'wh',e:'🔎',t:'WH Questions',th:'คำถาม What, Where, When, Who, Why, How',
+learn:[
+['What → a thing','What = อะไร',['What is your name?','What do you do?']],
+['Where → a place','Where = ที่ไหน',['Where do you live?']],
+['When → a time','When = เมื่อไหร่',['When is the class?']],
+['Who → a person','Who = ใคร',['Who is your teacher?']],
+['Why → a reason','Why = ทำไม (ตอบด้วย Because…)',['Why are you late?','Because I missed the bus.']],
+['How → a way or a feeling','How = อย่างไร / เป็นอย่างไร',['How are you?','How do you go to school?']]],
+say:['Where do you live?','Why do you study English?','How do you come to class?'],
+own:'Your turn: ask three questions, each with a different WH word.',
+can:'I can ask questions with what, where, when, who, why and how.',
+q:[
+['___ is your teacher? (a person)',['What','Who','Where'],1,'A person → Who.'],
+['___ do you live? — In Bangkok.',['Where','When','Why'],0,'A place → Where.'],
+['___ are you sad? — Because I’m tired.',['How','What','Why'],2,'A reason (Because…) → Why.'],
+['___ is the party? — At 8 PM.',['When','Who','Where'],0,'A time → When.'],
+['___ do you go to work? — By bus.',['How','Who','When'],0,'A way → How.']]},
+{id:'can',e:'💪',t:'Can & Can’t',th:'can / can’t พูดถึงความสามารถ',
+learn:[
+['can + verb → able to','can = ทำได้',['I can swim.','Dee can sing.'],'✗ She cans sing.  ✓ She can sing.'],
+['can’t + verb → not able to','can’t = ทำไม่ได้',['I can’t drive.','He can’t cook.']],
+['Ask with Can','ถามด้วย Can + ประธาน + กริยา',['Can you play guitar?','Yes, I can. / No, I can’t.']]],
+say:['I can swim.','I can’t drive.','Can you cook?'],
+own:'Your turn: say three things you can do and one thing you can’t.',
+can:'I can talk about what I can and can’t do.',
+q:[
+['She ___ swim.',['can','cans','does can'],0,'can never takes -s.'],
+['I ___ drive. I’m only ten.',['can','can’t','don’t can'],1,'Not able → can’t.'],
+['___ you play the guitar?',['Do','Can','Are'],1,'Asking about ability → Can.'],
+['He can ___ English.',['speak','speaks','speaking'],0,'After can, use the base verb.'],
+['Can Dee dance? — Yes, she ___.',['can','does','is'],0,'Answer with can.']]},
+{id:'sh',e:'💡',t:'Should & Shouldn’t',th:'should / shouldn’t ให้คำแนะนำ',
+learn:[
+['should + verb → good advice','should = ควร',['You should drink water.','She should sleep early.']],
+['shouldn’t + verb → not a good idea','shouldn’t = ไม่ควร',['You shouldn’t eat too much sugar.','He shouldn’t stay up late.'],'✗ He should to go.  ✓ He should go.'],
+['Ask for advice','ขอคำแนะนำ: Should I…? / What should I do?',['Should I study tonight?','What should I do?']],
+['Make a suggestion','เสนอแนะ: Let’s… / Why don’t you…?',['Let’s study together!','Why don’t you try some tea?']]],
+say:['You should drink water.','You shouldn’t stay up late.','What should I do?'],
+own:'Your turn: give advice to a friend who is tired.',
+can:'I can give advice with should and shouldn’t.',
+q:[
+['I have a headache. You ___ rest.',['should','shouldn’t','can’t'],0,'Good advice → should.'],
+['You ___ eat too much sugar. It’s bad for you.',['should','shouldn’t','can'],1,'A bad idea → shouldn’t.'],
+['___ I study tonight?',['Should','Do','Am'],0,'Asking for advice → Should I…?'],
+['He should ___ early.',['sleep','sleeps','sleeping'],0,'After should, use the base verb.'],
+['“___ study together!” (a suggestion)',['Let’s','Should','Can’t'],0,'Let’s + verb = a friendly suggestion.']]}
+];
+const $=s=>document.querySelector(s);
+let S={};try{S=JSON.parse(localStorage.getItem('kt-week')||'{}')}catch(e){}
+S.s=S.s||{};S.say=S.say||{};S.can=S.can||{};S.th=S.th!==false;
+const save=()=>{try{localStorage.setItem('kt-week',JSON.stringify(S))}catch(e){}};
+const speak=t=>{try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/ \/ /g,'. '));u.lang='en-US';u.rate=.85;speechSynthesis.speak(u)}catch(e){}};
+const star=n=>'★'.repeat(n)+'☆'.repeat(3-n);
+const L=id=>D.find(x=>x.id==id);
+let st={v:'home'};
+
+function startQ(list){st.list=list.map(q=>({q:q[0],o:q[1].map((t,i)=>({t,k:i==q[2]})).sort(()=>Math.random()-.5),w:q[3]}));st.qi=0;st.sc=0;st.pick=null}
+function openL(id){st={v:'l',id,tab:'learn'};R();scrollTo(0,0)}
+function tab(t){st.tab=t;if(t=='practise')startQ(L(st.id).q);R();scrollTo(0,0)}
+function goHome(){st={v:'home'};R()}
+function challenge(){startQ(D.flatMap(l=>l.q).sort(()=>Math.random()-.5).slice(0,8));st={...st,v:'ch',id:'ch'};R();scrollTo(0,0)}
+function again(){if(st.id=='ch')challenge();else{startQ(L(st.id).q);R()}}
+function pick(i){if(st.pick!=null)return;st.pick=i;if(st.list[st.qi].o[i].k)st.sc++;R()}
+function nextQ(){st.qi++;st.pick=null;const n=st.list.length,s=st.sc;
+ if(st.qi>=n){if(st.id=='ch')S.ch=Math.max(S.ch||0,s);else S.s[st.id]=Math.max(S.s[st.id]||0,s==n?3:s>=n-1?2:s>=n-2?1:0);save()}
+ R()}
+function said(id,i,v){(S.say[id]=S.say[id]||[])[i]=v;save()}
+
+const learn=l=>l.learn.map(r=>`<div class="card"><b>${r[0]}</b><span class="th">${r[1]}</span>${r[2].map(x=>`<div class="ex"><span>${x}</span><button class="chip" data-t="${x}" onclick="speak(this.dataset.t)">🔊</button></div>`).join('')}${r[3]?`<div class="bad">${r[3]}</div>`:''}</div>`).join('')+`<button class="btn" onclick="tab('practise')">Ready? Practise →</button>`;
+
+const talk=l=>`<div class="card"><b>Listen, repeat, then say it again from memory.</b><span class="th">ฟัง พูดตาม แล้วลองพูดเองโดยไม่ดู</span>${l.say.map((x,i)=>`<div class="ex"><button class="chip" data-t="${x}" onclick="speak(this.dataset.t)">🔊</button><span>${x}</span><label><input type="checkbox" ${(S.say[l.id]||[])[i]?'checked':''} onchange="said('${l.id}',${i},this.checked)"> said</label></div>`).join('')}</div><div class="card"><b>🗣️ ${l.own}</b></div><div class="card"><label><input type="checkbox" ${S.can[l.id]?'checked':''} onchange="S.can['${l.id}']=this.checked;save()"><span>${l.can}</span></label></div>`;
+
+function quiz(){
+ const Q=st.list,n=Q.length;
+ if(st.qi>=n){const s=st.sc,ch=st.id=='ch',k=s==n?3:s>=n-1?2:s>=n-2?1:0;
+  return `<div class="card" style="text-align:center"><div class="big">${ch?'⚡':star(k)}</div><h2>${s} / ${n}</h2><p>${s==n?'Perfect! 🎉':s>=n-2?'Nice work! Try again for more stars.':'Good try! Read the Learn tab, then try again.'}</p></div><button class="btn" onclick="again()">Try again</button>${ch?`<button class="btn g" onclick="goHome()">Back to lessons</button>`:`<button class="btn g" onclick="tab('speak')">Next: Speak 🎤</button>`}`}
+ const q=Q[st.qi],p=st.pick;
+ return `<div class="bar"><i style="width:${st.qi/n*100}%"></i></div><div class="card"><p class="mute">Question ${st.qi+1} of ${n}</p><h2>${q.q}</h2>${q.o.map((o,i)=>`<button class="opt ${p==null?'':o.k?'ok':p==i?'no':''}" onclick="pick(${i})">${o.t}</button>`).join('')}${p==null?'':`<div class="fb">${q.o[p].k?'✅ Great!':'❌ Not quite.'} ${q.w}</div><button class="btn" onclick="nextQ()">${st.qi+1<n?'Next →':'See my score'}</button>`}</div>`}
+
+function R(){
+ document.body.classList.toggle('th',S.th);
+ let h=`<div class="row"><h1>Kru Thee · This Week</h1><button class="chip" onclick="S.th=!S.th;save();R()">ไทย ${S.th?'✓':'✗'}</button></div>`;
+ if(st.v=='home'){
+  const t=D.reduce((a,l)=>a+(S.s[l.id]||0),0);
+  h+=`<p class="mute">Learn → Practise → Speak. One lesson a day is perfect.</p><div class="bar"><i style="width:${t/12*100}%"></i></div><p class="mute">${t} / 12 ★</p>`
+  +D.map(l=>`<button class="card les" onclick="openL('${l.id}')"><div class="row"><span class="big">${l.e}</span><b style="flex:1;margin:0 10px">${l.t}<span class="th">${l.th}</span></b><span>${star(S.s[l.id]||0)}${(S.say[l.id]||[]).filter(Boolean).length>=l.say.length?' 🎤':''}</span></div></button>`).join('')
+  +`<button class="btn" onclick="challenge()">⚡ Week Challenge · 8 mixed questions${S.ch!=null?` (best ${S.ch}/8)`:''}</button>`;
+ }else{
+  const l=L(st.id),ch=st.v=='ch';
+  h+=`<button class="chip" onclick="goHome()">← All lessons</button><h2 style="margin-top:12px">${ch?'⚡ Week Challenge':l.e+' '+l.t}</h2>${ch?'':`<span class="th">${l.th}</span><div class="tabs">${[['learn','📖 Learn'],['practise','✏️ Practise'],['speak','🎤 Speak']].map(([k,n])=>`<button class="${st.tab==k?'on':''}" onclick="tab('${k}')">${n}</button>`).join('')}</div>`}`
+  +(ch||st.tab=='practise'?quiz():st.tab=='learn'?learn(l):talk(l));
+ }
+ $('#app').innerHTML=h;
+}
+R();
+</script>
+</body>
+</html>
