@@ -161,7 +161,20 @@ function Home() {
         <Quick to="/speak" title="Speak" body="Say a short line out loud" />
         <Quick to="/drill" title="Quick drill" body="Five mixed questions" />
         <Quick to="/mistakes" title="Fix my mistakes" body={missed > 0 ? `${missed} saved to redo` : "Notebook is clean"} />
-      </section>
+      <section>
+  <a
+    href="/this-week.html"
+    className="card flex min-h-24 flex-col justify-center gap-1 px-4 py-3"
+  >
+    <span className="font-display text-xl">This Week</span>
+    <span className="text-sm text-muted">Learn, practise and speak</span>
+    {showThai ? (
+      <span lang="th" className="text-sm text-muted">
+        บทเรียนประจำสัปดาห์
+      </span>
+    ) : null}
+  </a>
+</section>
     </div>
   );
 }
