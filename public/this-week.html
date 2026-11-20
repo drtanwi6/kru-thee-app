@@ -38,6 +38,30 @@ input[type=checkbox]{width:22px;height:22px;accent-color:var(--brand)}
 <body>
 <main id="app" aria-live="polite"></main>
 <script>
+window.addEventListener("error", function(event) {
+  const app = document.getElementById("app");
+
+  if (app) {
+    app.innerHTML = "";
+    const message = document.createElement("pre");
+    message.style.cssText =
+      "background:white;color:red;padding:20px;white-space:pre-wrap;";
+    message.textContent =
+      "KRU THEE ERROR:\n" + event.message +
+      "\nLine: " + event.lineno;
+
+    app.appendChild(message);
+  }
+});
+
+window.addEventListener("unhandledrejection", function(event) {
+  const app = document.getElementById("app");
+  if (app) {
+    app.textContent = "JAVASCRIPT ERROR: " + event.reason;
+    app.style.cssText = "background:white;color:red;padding:20px;";
+  }
+});
+</script><script>
 const D=[
 {id:'dd',e:'❓',t:'Do, Does & Did',th:'ถามคำถามด้วย Do / Does / Did',
 learn:[
